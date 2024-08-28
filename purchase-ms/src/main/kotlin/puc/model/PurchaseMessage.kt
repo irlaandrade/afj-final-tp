@@ -1,4 +1,4 @@
-package puc.purchase
+package puc.model
 
 class PurchaseMessage(val userId: Long, val productId: String, val quantity: Int) {
 

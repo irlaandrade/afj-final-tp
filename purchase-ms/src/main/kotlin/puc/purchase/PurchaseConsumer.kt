@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
+import puc.model.PurchaseMessage
 
 @Component
 class PurchaseConsumer(val restTemplate: RestTemplate) {
