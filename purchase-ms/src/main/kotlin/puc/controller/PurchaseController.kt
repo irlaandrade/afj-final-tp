@@ -20,14 +20,18 @@ class PurchaseController(val rabbitTemplate: RabbitTemplate, val jwtUtil: JwtUti
 
     @PostMapping("/buy")
     fun buy(@RequestHeader("Authorization") token: String, @RequestBody purchaseRequest: PurchaseRequest): ResponseEntity<String> {
+//        val bearer = token.replaceFirst("Bearer ".toRegex(), "")
         val bearer = token.replaceFirst("Bearer ", "")
-        if (!JwtUtil.validateToken(bearer)) {
-            return ResponseEntity.status(401).body("Failed to authenticate.")
-        }
+
+//        if (!jwtUtil.validateToken(bearer)) {
+//            return ResponseEntity.status(401).body("Failed to authenticate.")
+//        }
 
         try {
-            val userId: Long = JwtUtil.extractUserId(bearer)
-            purchaseService.sendMessage(userId, purchaseRequest)
+            val userId: Long? = jwtUtil.extractUserId(bearer)
+            if (userId != null) {
+                purchaseService.sendMessage(userId, purchaseRequest)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             return ResponseEntity.status(500).body("Failed to send purchase request.")
